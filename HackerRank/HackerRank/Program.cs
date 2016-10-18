@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +13,10 @@ namespace HackerRank
     {
         static void Main(string[] args)
         {
-            InsertionSortRunningTime();
+
+            //QuickSortPart2();
+            //QuickSortPart1();
+            //InsertionSortRunningTime();
             //InsertionSortInvariantAndCorrectness();
             //InsertionSortPart2();
             //InsertionSortPart1();
@@ -27,6 +32,96 @@ namespace HackerRank
             //LeftRotation();
 
             Console.ReadLine();
+        }
+
+        private static void QuickSortPart2()
+        {
+            int _ar_size;
+            _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
+
+            quickSortPrivatePart2(_ar.ToList());
+        }
+
+        private static void quickSortPrivatePart2(List<int> ar)
+        {
+            var partitioned = getPartionedArrayQuickSortPart2(ar);
+            Console.WriteLine(string.Join(" ", partitioned));
+        }
+
+        private static List<int> getPartionedArrayQuickSortPart2(List<int> _ar)
+        {
+            if (_ar.Count <= 1)
+                return _ar;
+
+            var pIndex = 0;
+            var p = _ar[pIndex];
+            var left = new List<int>();
+            var equal = new List<int>();
+            var right = new List<int>();
+
+            for (var index = 0; index < _ar.Count; index++)
+            {
+                if (_ar[index] < p)
+                    left.Add(_ar[index]);
+                else if (_ar[index] > p)
+                    right.Add(_ar[index]);
+                else if (_ar[index] == p)
+                    equal.Add(_ar[index]);
+            }
+
+            left = getPartionedArrayQuickSortPart2(left);
+
+            if (left.Count > 1)
+                Console.WriteLine(string.Join(" ", left));
+
+            right = getPartionedArrayQuickSortPart2(right);
+
+            if (right.Count > 1)
+                Console.WriteLine(string.Join(" ", right));
+
+            var combined = new List<int>();
+            combined.AddRange(left);
+            combined.AddRange(equal);
+            combined.AddRange(right);
+
+            return combined;
+        }
+
+        private static void QuickSortPart1()
+        {
+            int _ar_size;
+            _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
+
+            var pIndex = 0;
+            var p = _ar[pIndex];
+            var left = new List<int>();
+            var equal = new List<int>();
+            var right = new List<int>();
+
+            for (var index = 0; index < _ar.Length; index++)
+            {
+                if (_ar[index] < p)
+                    left.Add(_ar[index]);
+                else if (_ar[index] > p)
+                    right.Add(_ar[index]);
+                else if (_ar[index] == p)
+                    equal.Add(_ar[index]);
+            }
+
         }
 
         private static void InsertionSortRunningTime()
