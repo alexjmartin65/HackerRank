@@ -11,8 +11,11 @@ namespace HackerRank
     {
         static void Main(string[] args)
         {
-
-
+            InsertionSortRunningTime();
+            //InsertionSortInvariantAndCorrectness();
+            //InsertionSortPart2();
+            //InsertionSortPart1();
+            //SortingIntro();
             //SockMerchant();
             //CutTheSticks();
             //AngryProfessor();
@@ -24,6 +27,171 @@ namespace HackerRank
             //LeftRotation();
 
             Console.ReadLine();
+        }
+
+        private static void InsertionSortRunningTime()
+        {
+            int _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
+
+            insertionSortPrivateRunningTime(_ar);
+        }
+
+        static void insertionSortPrivateRunningTime(int[] ar)
+        {
+            var numberOfShifts = 0;
+            for (var index = 1; index < ar.Length; index++)
+            {
+                var lastItem = ar[index];
+
+                for (var innerIndex = index - 1; innerIndex >= 0; innerIndex--)
+                {
+                    var currentItem = ar[innerIndex];
+                    if (currentItem > lastItem && innerIndex + 1 < ar.Length)
+                    {
+                        ar[innerIndex + 1] = currentItem;
+                        numberOfShifts++;
+                        if (innerIndex == 0)
+                        {
+                            ar[innerIndex] = lastItem;
+                        }
+                    }
+                    else if (innerIndex + 1 < ar.Length)
+                    {
+                        ar[innerIndex + 1] = lastItem;
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine(numberOfShifts);
+        }
+
+        private static void InsertionSortInvariantAndCorrectness()
+        {
+            Console.ReadLine();
+            int[] _ar = (from s in Console.ReadLine().Split() select Convert.ToInt32(s)).ToArray();
+            insertionSortInvariantAndCorrectnessPrivate(_ar);
+        }
+
+        public static void insertionSortInvariantAndCorrectnessPrivate(int[] array)
+        {
+            var innerIndex = 0;
+            for (var index = 1; index < array.Length; index++)
+            {
+                var value = array[index];
+                innerIndex = index - 1;
+
+                while (innerIndex >= 0 && value < array[innerIndex])
+                {
+                    array[innerIndex + 1] = array[innerIndex];
+                    innerIndex = innerIndex - 1;
+                }
+
+                array[innerIndex + 1] = value;
+
+            }
+            Console.WriteLine(string.Join(" ", array));
+        }
+
+        private static void InsertionSortPart2()
+        {
+            int _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
+
+            insertionSortPrivatePart2(_ar);
+        }
+
+        static void insertionSortPrivatePart2(int[] ar)
+        {
+            for (var index = 1; index < ar.Length; index++)
+            {
+                var lastItem = ar[index];
+
+                for (var innerIndex = index - 1; innerIndex >= 0; innerIndex--)
+                {
+                    var currentItem = ar[innerIndex];
+                    if (currentItem > lastItem && innerIndex + 1 < ar.Length)
+                    {
+                        ar[innerIndex + 1] = currentItem;
+                        if (innerIndex == 0)
+                        {
+                            ar[innerIndex] = lastItem;
+                        }
+                    }
+                    else if (innerIndex + 1 < ar.Length)
+                    {
+                        ar[innerIndex + 1] = lastItem;
+                        break;
+                    }
+                }
+
+                Console.WriteLine(string.Join(" ", ar));
+            }
+        }
+
+        private static void InsertionSortPart1()
+        {
+            int _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
+
+            insertionSortPart1Private(_ar);
+        }
+
+        static void insertionSortPart1Private(int[] ar)
+        {
+
+            var lastItem = ar[ar.Length - 1];
+            for (var index = ar.Length - 2; index >= 0; index--)
+            {
+                var currentItem = ar[index];
+                if (currentItem > lastItem)
+                {
+                    ar[index + 1] = currentItem;
+                    Console.WriteLine(string.Join(" ", ar));
+                    if (index == 0)
+                    {
+                        ar[index] = lastItem;
+                        Console.WriteLine(string.Join(" ", ar));
+                    }
+                }
+                else
+                {
+                    ar[index + 1] = lastItem;
+                    Console.WriteLine(string.Join(" ", ar));
+                    break;
+                }
+            }
+
+        }
+
+        private static void SortingIntro()
+        {
+            var v = int.Parse(Console.ReadLine());
+            var n = int.Parse(Console.ReadLine());
+            var stringArray = Console.ReadLine().Split(' ');
+            var intArray = Array.ConvertAll(stringArray, int.Parse);
+
+            var index = Array.IndexOf(intArray, v);
+            Console.WriteLine(index);
         }
 
         private static void SockMerchant()
