@@ -11,7 +11,7 @@ namespace HackerRank
 {
     class Program
     {
-        static void Main(string[] args)
+        static void MainTwo(string[] args)
         {
             int _ar_size;
             _ar_size = Convert.ToInt32(Console.ReadLine());
