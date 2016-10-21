@@ -13,18 +13,9 @@ namespace HackerRank
     {
         static void Main(string[] args)
         {
-            int _ar_size;
-            _ar_size = Convert.ToInt32(Console.ReadLine());
-            int[] _ar = new int[_ar_size];
-            String elements = Console.ReadLine();
-            String[] split_elements = elements.Split(' ');
-            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
-            {
-                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
-            }
 
-            quickSortInPlace(_ar, 0, _ar.Length - 1);
-
+            //QuickSortRunningTime();
+            //QuickSortInPlace();
             //QuickSortPart2();
             //QuickSortPart1();
             //InsertionSortRunningTime();
@@ -45,23 +36,49 @@ namespace HackerRank
             Console.ReadLine();
         }
 
-        private static void quickSortInPlace(int[] _ar, int left, int right)
+        private static void QuickSortRunningTime()
         {
-            if (left >= right)
-                return;
+            int _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
 
-            var pivotIndex = paritionInPlace(_ar, left, right);
-            quickSortInPlace(_ar, left, pivotIndex - 1);
-            quickSortInPlace(_ar, pivotIndex, right);
+            var _insertionArray = new int[_ar_size];
+            Array.Copy(_ar, _insertionArray, _ar_size);
 
+            var quickSort = QuickSortNumberOfShifts(_ar);
+            var numberOfInsertions = insertionSortPrivateRunningTime(_insertionArray);
+
+            Console.WriteLine(numberOfInsertions - quickSort);
         }
 
-        private static int paritionInPlace(int[] _ar, int left, int right)
+        private static int QuickSortNumberOfShifts(int[] _ar)
+        {
+            var numberOfShifts = 0;
+            quickSortNumberOfShifts(_ar, 0, _ar.Length - 1, ref numberOfShifts);
+            return numberOfShifts;
+        }
+
+        private static void quickSortNumberOfShifts(int[] _ar, int left, int right, ref int numberOfShifts)
+        {
+            if (left < right)
+            {
+                var pivotIndex = paritionNumberOfShifts(_ar, left, right, ref numberOfShifts);
+                quickSortNumberOfShifts(_ar, left, pivotIndex - 1, ref numberOfShifts);
+                quickSortNumberOfShifts(_ar, pivotIndex + 1, right, ref numberOfShifts);
+            }
+        }
+
+        private static int paritionNumberOfShifts(int[] _ar, int left, int right, ref int numberOfShifts)
         {
 
             var pivot = _ar[right];
             var pivotCounter = left;
-            for (var index = left; index < right - 1; index++)
+            for (var index = left; index < right; index++)
             {
                 if (pivot >= _ar[index])
                 {
@@ -69,7 +86,57 @@ namespace HackerRank
                     _ar[pivotCounter] = _ar[index];
                     _ar[index] = currentTemp;
                     pivotCounter++;
-                    //Console.WriteLine(string.Join(" ", _ar));
+                    numberOfShifts++;
+                }
+            }
+
+            var pivotTemp = _ar[pivotCounter];
+            _ar[pivotCounter] = pivot;
+            _ar[right] = pivotTemp;
+            numberOfShifts++;
+
+            return pivotCounter;
+        }
+
+        private static void QuickSortInPlace()
+        {
+            int _ar_size = Convert.ToInt32(Console.ReadLine());
+            int[] _ar = new int[_ar_size];
+            String elements = Console.ReadLine();
+            String[] split_elements = elements.Split(' ');
+            for (int _ar_i = 0; _ar_i < _ar_size; _ar_i++)
+            {
+                _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
+            }
+
+            quickSortInPlace(_ar, 0, _ar.Length - 1);
+        }
+
+        private static void quickSortInPlace(int[] _ar, int left, int right)
+        {
+            if (left < right)
+            {
+
+                var pivotIndex = paritionInPlace(_ar, left, right);
+                Console.WriteLine(string.Join(" ", _ar));
+                quickSortInPlace(_ar, left, pivotIndex - 1);
+                quickSortInPlace(_ar, pivotIndex + 1, right);
+            }
+        }
+
+        private static int paritionInPlace(int[] _ar, int left, int right)
+        {
+
+            var pivot = _ar[right];
+            var pivotCounter = left;
+            for (var index = left; index < right; index++)
+            {
+                if (pivot >= _ar[index])
+                {
+                    var currentTemp = _ar[pivotCounter];
+                    _ar[pivotCounter] = _ar[index];
+                    _ar[index] = currentTemp;
+                    pivotCounter++;
                 }
             }
 
@@ -77,7 +144,6 @@ namespace HackerRank
             _ar[pivotCounter] = pivot;
             _ar[right] = pivotTemp;
 
-            Console.WriteLine(string.Join(" ", _ar));
 
             return pivotCounter;
         }
@@ -183,10 +249,10 @@ namespace HackerRank
                 _ar[_ar_i] = Convert.ToInt32(split_elements[_ar_i]);
             }
 
-            insertionSortPrivateRunningTime(_ar);
+            Console.WriteLine(insertionSortPrivateRunningTime(_ar));
         }
 
-        static void insertionSortPrivateRunningTime(int[] ar)
+        static int insertionSortPrivateRunningTime(int[] ar)
         {
             var numberOfShifts = 0;
             for (var index = 1; index < ar.Length; index++)
@@ -213,7 +279,7 @@ namespace HackerRank
                 }
             }
 
-            Console.WriteLine(numberOfShifts);
+            return numberOfShifts;
         }
 
         private static void InsertionSortInvariantAndCorrectness()
